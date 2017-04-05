@@ -1,0 +1,79 @@
+﻿@model Portfolio.Models.Comment
+
+@{
+    Layout = "~/Views/Shared/_BlogLayout .cshtml";
+    ViewBag.Title = "Delete";
+}
+
+<main>
+    <section class="container view-content">
+        <h2>Delete comment for: <strong>@Model.Post.Title</strong></h2>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Author)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Author.DisplayName)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.created)
+            </dt>
+            <dd>
+                @Model.created.DateTime.ToString("ddd, MMM dd, yyyy: HH:mm")
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Body)
+            </dt>
+            <dd>
+                @Html.Raw(Model.Body)
+            </dd>
+            @if (Model.Modified.HasValue)
+            {
+                <dt>
+                    @Html.DisplayNameFor(model => model.Modified)
+                </dt>
+                <dd>
+                    @Model.Modified.Value.DateTime.ToString("ddd, MMM dd, yyyy: HH:mm")
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.ModifiedBy)
+                </dt>
+                <dd>
+                    @Model.ModifiedBy
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.OriginalBody)
+                </dt>
+                <dd>
+                    @Html.Raw(Model.OriginalBody)
+                </dd>
+            }
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                <div class="verify-contain col-md-offset-2 col-md-10">
+                    @if (User.IsInRole("GuestAdmin"))
+                    {
+                        <button type="button" id="delete" class="btn btn-dark btn-round" disabled>Delete</button>
+                    }
+                    else
+                    {
+                        <button type="button" id="delete" class="btn btn-dark btn-round">Delete</button>
+                    }
+                    <div id="verify">
+                        <p class="text-danger">Are you sure you want to permanently delete this comment?</p>
+                        <input type="submit" value="Yes, delete" class="btn btn-dark btn-round pull-right" />
+                    </div>
+                </div>
+                <div>
+                    @Html.ActionLink("Back to BlogPost", "Details", "BlogPosts", new { slug = Model.Post.Slug }, null)
+                </div>
+            </div>
+        }
+    </section>
+</main>

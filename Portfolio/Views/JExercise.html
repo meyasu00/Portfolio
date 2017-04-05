@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Java Script Exercise</title>
+    <meta charset="utf-8" />
+    <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 input">
+                <h3>Simple Statics</h3>
+                <h4>Enter your numbers.</h4>
+                <label for="number1">Number :</label>
+                <input type="number" id="number1" />  <br />
+                <label for="number2">Number :</label>
+                <input type="number" id="number2" />   <br />
+                <label for="number3">Number :</label>
+                <input type="number" id="number3" />   <br />
+                <label for="number4">Number :</label>
+                <input type="number" id="number4" />  <br />
+                <label for="number5">Number :</label>
+                <input type="number" id="number5" />   <br />
+                <button id="exercise1">Calculate!</button>
+                <p id="least">Least: </p>
+                <p id="greatest">Greatest: </p>
+                <p id="sum">Sum: </p>
+                <p id="mean">Mean: </p>
+                <p id="product">Product: </p>
+            </div>
+            <div class="col-md-6">
+                <h4>Factorial Of A Number</h4>
+                <p>Enter a number</p>
+                <label for="number">Number :</label>
+                <input type="number" id="fnumber" />
+                <button id="exercise2">Click me!</button><br />
+                <p id="factorial">The factorial of your number is: </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6">
+                <p><b>FizzBuzz</b></p>
+                <input type="number" id="input1"><br>
+                <input type="number" id="input2"><br>
+                <button id="FizzBuzz">Run</button><br>
+            </div>
+            <div class="col-xs-6">
+
+                <p><output id="output"><b>FIZZBUZZ!!!!</b></output></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6">
+                <p><b>Find out if your word is a Palindrome!</b></p>
+                <label for="text">Word: </label>
+                <input type="text" id="input"><br>
+                <button id="isPalindrome">Check!</button><br>
+            </div>
+            <div class="col-xs-6">
+                <p><output id="Result"><b>Is It A Palindrome?</b></output></p>
+            </div>
+        </div>
+    </div>
+    <script src="vendor/jquery/jquery.js"></script>
+    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/js/Exercise1.js"></script>
+</body>
+</html>

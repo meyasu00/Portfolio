@@ -1,0 +1,123 @@
+﻿@model Portfolio.Models.BlogPost
+
+@{
+    Layout = "~/Views/Shared/_BlogLayout .cshtml";
+    ViewBag.Title = "Details";
+}
+
+@if (Model.MediaUrl == null)
+{
+    @:<section id="hero" class="module-hero module-parallax module-overlay-dark-1" data-background="../Images/hero-maroonBells.png">
+}
+else
+{
+
+    @:<section id="hero" class="module-hero module-parallax module-overlay-dark-1" data-background=@Url.Content(Model.MediaUrl)>
+}
+
+
+
+<!-- HERO TEXT -->
+<div class="hero-caption">
+    <div class="hero-text">
+        <h1 class="hero-title m-t-70">@Html.Raw(Model.Title)</h1>
+    </div>
+</div>
+<!-- /HERO TEXT -->
+
+</section>
+<!-- /HERO -->
+<!-- JOURNAL -->
+<main>
+    <section id="journal" class="container container-fluid view-content with-hero">
+        <div class="row">
+            <div class="col-md-8 col-sm-offset-2">
+                <article class="post">
+                    <div class="post-content">
+                        <h6 class="category">@Model.Category</h6>
+                        <h4>@Model.created.DateTime.ToLongDateString()</h4>
+                        <h5>@Model.created.DateTime.ToShortTimeString()</h5>
+                        @if (Model.Updated.HasValue)
+                        {   <p><i>Updated:</i>@Model.Updated.Value.DateTime.ToLongDateString()</p>
+                        }
+
+                        <div class="post-body">@Html.Raw(Model.Body)</div>
+                        <div class="row">
+                            <button type="button" class="btn btn-dark btn-round" onclick="location.href='@Url.Action("Index")';return false;">Back to All Posts</button>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <button type="button" class="btn btn-dark btn-round" onclick="location.href='@Url.Action("Edit", new { id = Model.Id })';return false;">Edit</button>
+                                <button type="button" class="btn btn-dark btn-round" onclick="location.href='@Url.Action("Delete", new { id = Model.Id })';return false;">Delete</button>
+                            }
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+
+    </section>
+    <!-- /JOURNAL -->
+    <!-- COMMENTS MODULE -->
+
+    <section id="comments" class="back-g">
+        <div class="container container-fluid view-content">
+            <article class="col-sm-10 col-sm-offset-2 comment-form">
+                @if (Model.Comments.Count == 0)
+                {
+                    <h4>There aren't any comments for this post yet.</h4>
+                }
+                @if (HttpContext.Current.User.Identity.IsAuthenticated)
+                {
+                    if (Model.Comments.Count == 0)
+                    {
+                        <h6>Be the first!</h6>
+                    }
+                    <form action="@Url.Action("Create","Comments")" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="PostId" value="@Model.Id" />
+                        <input name="Body" id="comment-input" class="comment-input col-sm-8 col-sm-offset-1" placeholder="Leave a new comment" />
+                        <div class="col-sm-2"><button type="submit" class="comment-submit btn btn-sm btn-dark btn-round">Submit</button></div>
+                    </form>
+                }
+                else
+                {
+                    <h4>You must be @Html.ActionLink("logged in", "Login", "Account") to leave a comment. <br />Never signed in before? @Html.ActionLink("Register here.", "Register", "Account")</h4>
+                }
+            </article>
+            @if (Model.Comments.Count != 0)
+            {
+                <h6 class="col-sm-11 col-sm-offset-1">Viewing (@Model.Comments.Count) Comments</h6>
+                foreach (var comment in Model.Comments)
+                {
+                    <article class="comment col-sm-9 col-sm-offset-2">
+                        <div class="row">
+                            <h4 class="col-sm-3"><b>@comment.Author.DisplayName </b> says...</h4>
+                            @if (User.IsInRole("Admin") || User.IsInRole("Moderator"))
+                            {
+                                <div class="col-sm-9">
+                                    @Html.ActionLink("Edit", "Edit", "Comments", new { id = comment.Id }, null)
+                                    @Html.ActionLink("Delete", "Delete", "Comments", new { id = comment.Id }, null)
+                                </div>
+                            }
+                        </div>
+                        <div class="comment-body">
+                            @if (comment.Published == true)
+                            {
+                                <p>@Html.Raw(comment.Body)</p>
+                            }
+                            else
+                            {
+                                <p class="text-danger">This comment was removed because: @comment.ReasonRemoved</p>
+                            }
+                        </div>
+                        <div class="comment-meta">
+                            @comment.created.DateTime.ToLongDateString(), @comment.created.DateTime.ToShortTimeString()
+                            @* add Reply option? *@
+                        </div>
+                        <hr />
+                    </article>
+                }
+            }
+        </div>
+    </section>
+</main>

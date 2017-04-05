@@ -1,0 +1,43 @@
+﻿body, header{
+    background-image: url('../img/1.jpg');
+}
+body .modal-dialog {
+        left: 0;
+         width: 100%; 
+    }
+body .navbar-default {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: #e7e7e7;
+}
+section{
+    background-color:#eeeeee;
+    margin-top:65px;
+    padding: 50px;
+}
+body .btn{
+    border:1px solid;
+    background-color: aquamarine;
+}
+body .container {
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+}
+input{
+    max-width:100% !important;
+}
+body #about{
+    background-color:rgba(0,0,0,.5);
+}
+body hr{
+    max-width: 220px !important;
+    border-color:#00d6d6 !important;
+    border-width:3px !important;
+    margin-left:0 !important;
+}
+body h2{
+    color:cornflowerblue;
+}
+
+
+

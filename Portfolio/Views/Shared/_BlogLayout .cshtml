@@ -1,0 +1,101 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">
+    <title>MEKUANENT EYASU</title>
+    @Styles.Render("~/Content/css")
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    @Scripts.Render("~/bundles/modernizr")
+    <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+
+    @* Fonts *@
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,400italic,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link href="~/css/Blog.css" rel="stylesheet" />
+</head>
+<body>
+    <!-- PRELOADER -->
+    @*<div class="page-loader">
+        <div class="loader">MEKUANENT'S BLOG </div>
+    </div>*@
+    <!-- /PRELOADER -->
+    <!-- NAVIGATION -->
+    <nav class="navbar navbar-fixed-top navbar-custom navbar-transparent">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#custom-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+                <!-- YOUr LOGO HERE -->
+                <a class="navbar-brand" href="http://meyasu-portfolio.azurewebsites.net">
+                    <!-- IMAGE OR SIMPLE TEXT -->
+                    @*<img class="light-logo" src="~/Images/light-logo-mine.png" width="100" alt="">*@
+                </a>
+                @Html.ActionLink("MEKUANENT EYASU", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+
+            <div class="collapse navbar-collapse" id="custom-collapse">
+                @Html.Partial("_LoginPartial")
+                <ul class="nav navbar-nav navbar-right">
+                    <li>@Html.ActionLink("Portfolio", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Blog Home", "Index", "BlogPosts")</li>
+                    @*<li>@Html.ActionLink("About", "About", "Home")</li>*@
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    @if (User.IsInRole("Admin") || User.IsInRole("Moderator") || User.IsInRole("GuestAdmin"))
+                    {
+                        <li>@Html.ActionLink("Moderator", "Index", "Comments")</li>
+                    }
+                    @if (User.IsInRole("Admin") || User.IsInRole("GuestAdmin"))
+                    {
+                        <li>@Html.ActionLink("Admin", "Admin", "BlogPosts")</li>
+                        <li>@Html.ActionLink("Create", "Create", "BlogPosts")</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="body-content content">
+        @RenderBody()
+        <footer class="footer module-overlay-dark-3" data-background="assets/images/module-5.jpg">
+            <div class="container">
+                <div class="col-sm-12">
+                    <div class="social-icons text-center m-b-40">
+                        <a href="https://www.facebook.com/mekuanent.getachew.7" target="_blank" class="fa fa-facebook"></a>
+                        <a href="https://www.linkedin.com/in/mekuanent-eyasu-68406a138/" target="_blank" class="fa fa-linkedin"></a>
+                    </div>
+                </div>
+
+                <div class="col-sm-12">
+                    <div class="copyright text-center">
+                        © 2017 <a href="#">MEKUANENT EYASU</a>, All Rights Reserved.
+                    </div>
+                </div>
+
+            </div>
+        </footer>
+
+        <!-- SCROLLTOP -->
+        <div class="scroll-up">
+            <a href="#totop"><i class="fa fa-angle-up"></i></a>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+
+</body>
+</html>
+
+
+

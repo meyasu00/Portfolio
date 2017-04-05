@@ -1,0 +1,102 @@
+﻿@model IEnumerable<Portfolio.Models.Comment>
+
+@{
+    Layout = "~/Views/Shared/_BlogLayout .cshtml";
+    ViewBag.Title = "Index";
+}
+
+<main>
+    <section class="container container-fluid view-content">
+        <h2>Comments Index</h2>
+
+        @if (User.IsInRole("GuestAdmin"))
+        {
+            <div class="alert alert-info">
+                <h4>Welcome to the Moderator's Page</h4>
+                <p>As a Guest Administrator, you have visual access to this page and its related pages to get an insider's look at how this application was constructed. However, you are not authorized to make any changes.  To protect the integrity of this blog, the buttons and controller actions to delete or save edited comments have been disabled. After you've had your fun, check out the pages visible to normally authenticated users and see if you can find the differences!</p>
+                <p>This page was designed for an application that receives heavier user response than my blog.  Note that a moderator can easily scan comments by post to search for bad language, harassment, etc. Depending on the organization's needs, this page could easily be customized to group comments based on their contents or flag repeat offenders. On an edit, a full moderator can choose to return to this page or to the post. A removed comment is still shown in the comment tree to preserve any dialog context, but the body is replaced with red text explaining why the comment was removed.</p>
+            </div>
+        }
+
+        <div class="row header">
+            <div class="col-thin col-sm-1">
+                <p>Post</p>
+            </div>
+            <div class="col-thin col-sm-1">
+                <p>Author</p>
+            </div>
+            <div class="col-thin col-sm-1">
+                <p>@Html.DisplayNameFor(model => model.created)</p>
+            </div>
+            <div class="col-thin col-sm-3">
+                <p>@Html.DisplayNameFor(model => model.Body)</p>
+            </div>
+            <div class="col-thin col-sm-1">
+                <p>@Html.DisplayNameFor(model => model.Modified)</p>
+            </div>
+            <div class="col-thin col-sm-1">
+                <p>By</p>
+            </div>
+            <div class="col-thin col-sm-2">
+                <p>Original</p>
+            </div>
+            <div class="col-thin col-sm-1">
+                <p>@Html.DisplayNameFor(model => model.Published)</p>
+            </div>
+            <div class="col-thin col-sm-1">
+            </div>
+        </div>
+
+        @foreach (var comment in Model.OrderBy(t => t.Post.Title))
+        {
+            <div class="row entries">
+                <div class="col-thin col-sm-1">
+                    <b>@comment.Post.Title</b>
+                </div>
+                <div class="col-thin col-sm-1">
+                    @Html.DisplayFor(modelItem => comment.Author.DisplayName)
+                </div>
+                <div class="col-thin col-sm-1">
+                    @comment.created.DateTime.ToString("ddd, MM dd, yyyy: HH:mm"))
+                </div>
+                <div class="col-thin col-sm-3">
+                    @Html.Raw(comment.Body)
+                </div>
+                <div class="col-thin col-sm-1">
+                    @if (comment.Modified.HasValue)
+                    {
+                        @comment.Modified.Value.DateTime.ToString("ddd, MM dd, yyyy: HH:mm")
+                    }
+                </div>
+                <div class="col-thin col-sm-1 break">
+                    @if (comment.ModifiedBy != null)
+                    {
+                        @comment.ModifiedBy
+                    }
+                </div>
+                <div class="col-thin col-sm-2">
+                    @if (comment.Modified.HasValue)
+                    {
+                        @Html.Raw(comment.OriginalBody)
+                    }
+                </div>
+                <div class="col-thin col-sm-1">
+                    @if (comment.Published == true)
+                    {
+                        <span class="glyphicon glyphicon-ok"></span>
+                    }
+                    else
+                    {
+                        <span class="glyphicon glyphicon-remove"></span>
+                    }
+                </div>
+                <div class="col-sm-1">
+                    <a class="btn btn-round btn-dark btn-admin" href="@Url.Action("Edit", new {id = comment.Id})">Edit</a><br />
+                    <a class="btn btn-round btn-dark btn-admin" href="@Url.Action("Delete", new {id = comment.Id})">Delete</a>
+                </div>
+            </div>
+        }
+    </section>
+</main>
+
+

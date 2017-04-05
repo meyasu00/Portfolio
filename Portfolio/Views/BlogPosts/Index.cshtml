@@ -1,0 +1,109 @@
+﻿@model IPagedList<Portfolio.Models.BlogPost>
+@using PagedList;
+@using PagedList.Mvc;
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css">
+
+@{
+    Layout = "~/Views/Shared/_BlogLayout .cshtml";
+    ViewBag.Title = "Index";
+}
+
+<!-- HERO -->
+<section id="hero" class="module-hero module-parallax module-overlay-dark-1" data-background="~/Images/hero-maroonBells.png"
+         style="background-image: url('../../Images/coderfoundry.jpg'); background-position: 100% 0px; height: 250px; margin-top:-20px; ">
+
+    <!-- HERO TEXT -->
+    <div class="hero-caption">
+        <div class="hero-text hero-t-align">
+            <h1 class="hero-title m-t-70 m-b-0 ">MEKUANENT'S BLOG</h1>
+            <h3 class="hero-subtitle m-b-20"></h3>
+        </div>
+    </div>
+    <!-- /HERO TEXT -->
+
+</section>
+<!-- /HERO -->
+<main>
+    <section class="container container-fluid view-content with-hero">
+        <div id="search" class="form-group">
+            @using (Html.BeginForm())
+            {
+                <div class="row">
+                    <form class="inline" action="@Url.Action("Index", "BlogPosts", new {query = ViewBag.Query})">
+                        <div class="form-group">
+                            @Html.TextBox("query", null, new { @class = "form-control", @placeholder = "Search " + @ViewBag.Category, @name = "query", @value = "@ViewBag.Query" })
+                            <button type="submit" class="btn btn-dark btn-round"><span class="fa fa-search"></span></button>
+                        </div>
+                    </form>
+                </div>
+            }
+        </div>
+        <div class="sidebar">
+            <aside>
+                <h4>Categories</h4>
+                <ul class="category-list">
+                    <li>@Html.ActionLink("All", "Index") </li>
+                    <li>@Html.ActionLink("Programming", "Index", "BlogPosts", new { category = "Programming" }, null)</li>
+                    <li>@Html.ActionLink("Art and Design", "Index", "BlogPosts", new { category = "Art and Design" }, null)</li>
+                    <li>@Html.ActionLink("Adventure", "Index", "BlogPosts", new { category = "Adventure" }, null)</li>
+                    <li>@Html.ActionLink("Fun Finds", "Index", "BlogPosts", new { category = "Fun Finds" }, null) </li>
+                </ul>
+            </aside>
+        </div>
+        @{ var i = 0;}
+
+        @*<h4>Viewing(@Model.Where(Model.FirstOrDefault().Category = category).Count() Category Posts</h4>*@
+
+        <!-- POST -->
+
+        @foreach (var post in Model)
+        {
+            if (i % 3 == 0)
+            {
+                @:<div class="row">
+            }
+            <article class="post post-preview col-sm-4">
+                <div class="post-thumbnail">
+                    @if (post.MediaUrl == null)
+                    {
+                        @:<img class="img-responsive crop" src="../Images/hero-maroonBells.png" alt="Maroon Bells Wilderness class" />
+                                }
+                    else
+                    {
+                        @:<img src="@Url.Content(post.MediaUrl)" alt="" class="img-responsive crop">
+                                }
+                </div>
+                <div class="post-header">
+
+                    <h2 class="post-title"><a href="@Url.Action("Details", new { slug = post.Slug })">@post.Title</a></h2>
+                    <h4 class="category">@post.Category</h4>
+                    <h6>@post.created.DateTime.ToLongDateString()</h6>
+                    <p>@post.created.DateTime.ToShortTimeString()</p>
+                </div>
+                <div class="post-content preview">
+                    <p>@Html.Raw(post.Body)</p>
+                </div>
+                <div class="post-links">
+                    <!--Shows {included} only to proper authorization level-->
+                    @if (User.IsInRole("Admin")) //User.Identity.IsAuthenticated for logged in
+                    {
+                        @Html.ActionLink("Edit", "Edit", new { id = post.Id })
+                        @Html.ActionLink("Delete", "Delete", new { id = post.Id })
+                    }
+                    <a href="@Url.Action("Details", new { slug = post.Slug })"><span>Readmore &rarr;</span></a>
+                </div>
+            </article>
+            if (i % 3 == 2)
+            {
+                @:</div>
+            }
+            i++;
+        }
+        <!-- /POST -->
+        <div class="col-md-12 category">
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, currentFilter = ViewBag.Query, category = ViewBag.Category }), PagedListRenderOptions.MinimalWithItemCountText)
+        </div>
+
+    </section>
+</main>

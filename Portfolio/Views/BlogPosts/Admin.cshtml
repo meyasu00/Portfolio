@@ -1,0 +1,102 @@
+﻿@model IEnumerable<Portfolio.Models.BlogPost>
+@{
+    ViewBag.Title = "Admin";
+    Layout = "~/Views/Shared/_BlogLayout .cshtml";
+}
+
+@{
+    ViewBag.Title = "Admin";
+}
+
+<main class="main">
+    <section class="container container-fluid view-content">
+        <h2>Posts Index</h2>
+        @if (User.IsInRole("GuestAdmin"))
+        {
+            <div class="alert alert-info">
+                <h4>Welcome to the Administrator's Page</h4>
+                <p>As a Guest Administrator, you have visual access to this page and its related pages. However, you are not authorized to make any changes. To protect the integrity of this blog, the buttons and controller actions to delete or save edited posts have been disabled. After you've had your fun, check out the pages visible to normally authenticated users and see if you can find the differences!</p>
+                <p>This page was designed to offer a quick glance at all posts and related information, including posts that have been created but not approved for publishing. When editing, a full admin has the option to return to this page or to return to the post details.</p>
+            </div>
+        }
+
+        <a class="btn btn-round btn-dark" href="@Url.Action("Create", "Posts")">Create New</a>
+        <div class="row header">
+            <div class="col-sm-2">
+                <h4>@Html.DisplayNameFor(model => model.Title)</h4>
+            </div>
+            <div class="col-sm-3">
+                <h4>@Html.DisplayNameFor(model => model.Body)</h4>
+            </div>
+            <div class="col-sm-1">
+                <h4>@Html.DisplayNameFor(model => model.created)</h4>
+            </div>
+            <div class="col-sm-1">
+                <h4>@Html.DisplayNameFor(model => model.Updated)</h4>
+            </div>
+            <div class="col-sm-1">
+                <h4>@Html.DisplayNameFor(model => model.Category)</h4>
+            </div>
+            <div class="col-sm-1">
+                <h4>@Html.DisplayNameFor(model => model.Slug)</h4>
+            </div>
+            <div class="col-sm-1">
+                <h4>@Html.DisplayNameFor(model => model.MediaUrl)</h4>
+            </div>
+            <div class="col-sm-1">
+                <h4>@Html.DisplayNameFor(model => model.Published)</h4>
+            </div>
+            <div class="col-sm-1">
+
+            </div>
+        </div>
+
+        @foreach (var post in Model)
+        {
+            <div class="row entries">
+                <div class="col-sm-2">
+                    <b>@Html.DisplayFor(modelItem => post.Title)</b>
+                </div>
+                <div class="col-sm-3">
+                    @Html.Raw(post.Body)
+                </div>
+                <div class="col-sm-1">
+                    @Html.DisplayFor(modelItem => post.created)
+                </div>
+                <div class="col-sm-1 break">
+                    @if (post.Updated.HasValue)
+                    {   <p>@Html.Raw(post.Updated.Value.DateTime.ToString("ddd, MMM dd, yyyy: HH:mm"))</p>
+                    }
+                </div>
+                <div class="col-sm-1">
+                    @Html.DisplayFor(modelItem => post.Category)
+                </div>
+                <div class="col-sm-1">
+                    @Html.DisplayFor(modelItem => post.Slug)
+                </div>
+                <div class="col-sm-1 break">
+                    @Html.DisplayFor(modelItem => post.MediaUrl)
+                </div>
+                <div class="col-sm-1">
+                    @if (post.Published == true)
+                    {
+                        <span class="glyphicon glyphicon-ok"></span>
+                    }
+                    else
+                    {
+                        <span class="glyphicon glyphicon-remove"></span>
+                    }
+                </div>
+                <div class="col-sm-1">
+                    <a class="btn btn-round btn-dark btn-admin" href="@Url.Action("Edit", new {id = post.Id})">Edit</a><br />
+                    <a class="btn btn-round btn-dark btn-admin" href="@Url.Action("Details", new {slug = post.Slug})">Details</a><br />
+                    <a class="btn btn-round btn-dark btn-admin" href="@Url.Action("Delete", new {id = post.Id})">Delete</a>
+                </div>
+            </div>
+        }
+    </section>
+</main>
+
+
+
+
