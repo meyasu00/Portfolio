@@ -678,6 +678,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Images\123.jpg" />
     <Content Include="Images\backgrd img.jpg" />
+    <Content Include="Images\Bug_1.jpg" />
+    <Content Include="Images\Bug_2.png" />
     <Content Include="Images\codrfndry img.png" />
     <Content Include="Images\CSharpNET.png" />
     <Content Include="Images\hero-maroonBells.png" />
@@ -688,9 +690,13 @@
     <Content Include="Images\Images2.png" />
     <Content Include="Images\Images3.png" />
     <Content Include="Images\Imagess.png" />
+    <Content Include="Images\Bug_3.jpg" />
     <Content Include="Images\pcc.jpg" />
     <Content Include="Images\programmer.png" />
     <Content Include="Images\Waterfall.jpg" />
+    <Content Include="img\portfolio\fullsize\7.jpg" />
+    <Content Include="img\portfolio\thumbnails\7.png" />
+    <Content Include="img\portfolio\thumbnails\bug6.jpg" />
     <Content Include="js\designer-1.js" />
     <Content Include="img\1.jpg" />
     <Content Include="Private.config">
